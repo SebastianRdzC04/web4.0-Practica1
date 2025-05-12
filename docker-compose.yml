@@ -1,0 +1,108 @@
+services:
+    init-app:
+        build:
+            context: ./
+            dockerfile: Dockerfile
+            args:
+                user: SebastianRdzC04
+                uid: 1000
+        container_name: practica1-init
+        working_dir: /var/www
+        volumes:
+            - ./:/var/www
+        networks:
+            - practica1-network
+        command: >
+            bash -c "
+            mkdir -p /var/www/storage/framework/sessions /var/www/storage/framework/views /var/www/storage/framework/cache &&
+            chmod -R 777 /var/www/storage /var/www/bootstrap/cache &&
+            ln -sf /var/www/public /var/www/html &&
+            composer install --no-dev --optimize-autoloader &&
+            php artisan config:cache &&
+            php artisan route:cache &&
+            php artisan view:cache &&
+            php artisan storage:link &&
+            chown -R www-data:www-data /var/www/storage
+            "
+        user: root
+    app:
+        build:
+            args:
+                user: SebastianRdzC04
+                uid: 1000
+            context: ./
+            dockerfile: Dockerfile
+        image: practica1-app
+        container_name: practica1-app
+        restart: unless-stopped
+        working_dir: /var/www/
+        volumes:
+            - ./:/var/www
+        networks:
+            - practica1-network
+        depends_on:
+            - db
+            - init-app
+    db:
+        image: postgres:13
+        container_name: db-practica1
+        restart: unless-stopped
+        environment:
+            POSTGRES_DB: ${DB_DATABASE}
+            POSTGRES_PASSWORD: ${DB_PASSWORD}
+            POSTGRES_USER: ${DB_USERNAME}
+        volumes:
+            - postgres_data:/var/lib/postgresql/data
+        networks:
+            - practica1-network
+    nginx:
+        image: nginx:alpine
+        container_name: nginx-practica1
+        restart: unless-stopped
+        ports:
+            - 812:80
+        volumes:
+            - ./:/var/www
+            - ./docker-compose/nginx:/etc/nginx/conf.d/
+        networks:
+            - practica1-network
+        depends_on:
+            - app
+    migrations:
+        build:
+            context: ./
+            dockerfile: Dockerfile
+            args:
+                user: SebastianRdzC04
+                uid: 1000
+        container_name: practica1-migrations
+        working_dir: /var/www
+        volumes:
+            - ./:/var/www
+        networks:
+            - practica1-network
+        depends_on:
+            - db
+        command: >
+            bash -c "
+            echo 'Esperando a que la base de datos esté lista...' &&
+            while ! pg_isready -h db -p 5432 -U ${DB_USERNAME}; do
+                sleep 1
+            done &&
+            echo 'Base de datos lista, ejecutando migraciones...' &&
+            php artisan migrate --force &&
+            php artisan db:seed --force
+            "
+
+    node:
+        image: node:18
+        container_name: practica1-node
+        working_dir: /var/www
+        volumes:
+            - ./:/var/www
+        command: bash -c "npm install && npm run build"
+networks:
+    practica1-network:
+        driver: bridge
+volumes:
+    postgres_data:
