@@ -16,6 +16,8 @@
 <x-sidebar/>
 
 <main>
+    <x-modals.notification-modal />
+
     <div class="ml-56">
         <div class="mt-20 px-6">
             @yield('content')

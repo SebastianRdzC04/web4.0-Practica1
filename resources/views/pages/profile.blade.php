@@ -3,22 +3,23 @@
 
 @section('content')
 <div class="container">
-    <div>
-        <h2 class="text-center">Perfil del Usuario</h2>
-    </div>
-    <form action="">
+    <x-common.title>PERFIL DEL USUARIO</x-common.title>
+
+    <form action="{{route('profile.update', auth()->user()->id)}}" method="POST">
+        @csrf
+        @method('PATCH')
         <div class="grid grid-cols-2 gap-10">
             <div>
-                <x-common.input name="name" type="text" placeholder="Name" />
-                <x-common.input name="email" type="email" placeholder="Email" />
+                <x-common.input name="name" type="text" title="Nombre" placeholder="{{auth()->user()->name}}" />
+                <x-common.input name="email" type="email" title="Email" placeholder="{{auth()->user()->email}}" />
             </div>
             <div>
-                <x-common.input name="age" type="number" placeholder="Age" />
+                <x-common.input name="age" type="number" title="Edad" placeholder="{{auth()->user()->personalData->age}}" />
                 <x-common.select-input
                     name="gender"
                     placeholder="Género"
-                    :options="['Hombre' => 'Hombre', 'Mujer' => 'Mujer']"
-                    selectedValue="Mujer"
+                    :options="['male' => 'Hombre', 'female' => 'Mujer']"
+                    selectedValue="{{auth()->user()->personalData->gender}}"
                 />
             </div>
         </div>

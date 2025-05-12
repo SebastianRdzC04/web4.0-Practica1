@@ -30,10 +30,19 @@ class DatabaseSeeder extends Seeder
 
         // Crear usuario admin
         $adminId = DB::table('users')->insertGetId([
-            'name' => 'Admin User',
-            'email' => 'admin@example.com',
-            'password' => Hash::make('1234'),
+            'name' => 'Sebastian Rodriguez',
+            'email' => 'practica1@gmail.com',
+            'password' => Hash::make('123123'),
             'role_id' => $adminRoleId,
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
+        // Crear datos personales para el admin
+        DB::table('personal_data')->insert([
+            'user_id' => $adminId,
+            'age' => 25,
+            'gender' => 'male',
             'created_at' => now(),
             'updated_at' => now(),
         ]);
@@ -42,7 +51,7 @@ class DatabaseSeeder extends Seeder
         $faker = Faker::create();
 
         // Crear 50 clientes
-        for ($i = 0; $i < 50; $i++) {
+        for ($i = 0; $i < 500; $i++) {
             $gender = $faker->randomElement(['male', 'female']);
 
             // Crear usuario
@@ -58,7 +67,7 @@ class DatabaseSeeder extends Seeder
             // Crear datos personales para el usuario
             DB::table('personal_data')->insert([
                 'user_id' => $userId,
-                'age' => $faker->numberBetween(10, 70),
+                'age' => $faker->numberBetween(10, 26),
                 'gender' => $gender,
                 'created_at' => now(),
                 'updated_at' => now(),

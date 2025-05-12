@@ -8,11 +8,10 @@
             </div>
             <div>
                 @auth
-                    <x-common.button-secondary btnId="btn-login" btnText="Iniciar Sesion" />
-
-                @else
                     <x-user-dropdown />
 
+                @else
+                    <x-common.button-secondary btnId="btn-login" btnText="Iniciar Sesion" />
                 @endauth
             </div>
         </div>

@@ -14,7 +14,9 @@
 <body class="flex flex-col min-h-screen">
 <x-header-public/>
 <main class="flex-grow py-4">
- @yield('content')
+    <x-modals.notification-modal />
+
+    @yield('content')
 </main>
 
 <x-modals.login-modal />

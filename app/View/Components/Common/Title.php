@@ -4,24 +4,16 @@ namespace App\View\Components\Common;
 
 use Illuminate\View\Component;
 
-class Input extends Component
+class Title extends Component
 {
-    public $name;
-    public $type;
-    public $placeholder;
-    public $title;
     /**
      * Create a new component instance.
      *
      * @return void
      */
-    public function __construct($name, $type, $placeholder, $title)
+    public function __construct()
     {
         //
-        $this->name = $name;
-        $this->type = $type;
-        $this->placeholder = $placeholder;
-        $this->title = $title;
     }
 
     /**
@@ -31,6 +23,6 @@ class Input extends Component
      */
     public function render()
     {
-        return view('components.common.input');
+        return view('components.common.title');
     }
 }

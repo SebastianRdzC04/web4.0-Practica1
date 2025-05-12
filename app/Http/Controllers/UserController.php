@@ -48,4 +48,12 @@ class UserController extends Controller
 
         return back()->with('success', 'Usuario creado');
     }
+
+    public function delete(Request $request, $id)
+    {
+        $user = User::findOrFail($id);
+        $user->delete();
+
+        return back()->with('success', 'Usuario eliminado');
+    }
 }

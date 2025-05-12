@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -26,20 +27,27 @@ Route::post('/users/create', [UserController::class, 'create'])->name('users.cre
 Route::prefix('profile')->group(function () {
     Route::get('/', function () {
         return view('pages.profile');
-    })->name('profile');
+    })->middleware('auth')->name('profile');
+    Route::patch('/{id}', [ProfileController::class, 'edit'])->name('profile.update');
+
 });
 
-Route::prefix('users')->group(function () {
-    Route::get('/', [UserController::class, 'index'])->name('users.index');
-    Route::get('/stats', [UserController::class, 'stats'])->name('users.stats');
+Route::prefix('admin')->middleware(['auth', 'role'])->group(function () {
+    Route::get('/', [UserController::class, 'index'])->name('admin.index');
+    Route::get('/stats', [UserController::class, 'stats'])->name('admin.stats');
+    Route::delete('/{id}', [UserController::class, 'delete'])->where('id', '[0-9]+')->name('admin.delete');
+    Route::get('/profile', function () {
+        return view('pages.profile');
+    })->name('admin.profile');
 });
 
 Route::prefix('auth')->group(function () {
-    Route::post('/login', function () {
-        return view('auth.login');
-    })->name('login');
+    Route::post('/login', [AuthController::class, 'login'])->name('auth.login');
 
     Route::get('/register', function () {
         return view('auth.register');
     })->name('register');
+
+    Route::post('/logout', [AuthController::class, 'logout'])->name('auth.logout');
+
 });

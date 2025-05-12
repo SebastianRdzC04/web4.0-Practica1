@@ -6,7 +6,7 @@
             </div>
 
             <div class="flex items-center space-x-4">
-                <a href="https://github.com/tu-usuario/primera-practica"
+                <a href="https://github.com/SebastianRdzC04/web4.0-Practica1.git"
                    class="flex items-center hover:text-gray-300 transition duration-300"
                    target="_blank" rel="noopener noreferrer">
                     <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
