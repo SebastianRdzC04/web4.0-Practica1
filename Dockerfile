@@ -8,9 +8,12 @@ RUN apt update && apt install -y \
     libonig-dev \
     libxml2-dev \
     libpq-dev \
-    postgresql-client
+    postgresql-client \
+    zip \
+    unzip \
+    libzip-dev
 RUN apt clean && rm -rf /var/lib/apt/lists/*
-RUN docker-php-ext-install pdo_pgsql mbstring exif pcntl bcmath gd
+RUN docker-php-ext-install pdo_pgsql mbstring exif pcntl bcmath gd zip
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 RUN useradd -G www-data,root -u $uid -d /home/$user $user
 RUN mkdir -p /home/$user/.composer && \
