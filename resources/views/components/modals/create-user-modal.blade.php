@@ -1,4 +1,4 @@
-<div id="registerModal" class="fixed inset-0 z-50 hidden">
+<div id="registerModal" class="fixed inset-0 z-50 {{($errors->has('name') || $errors->has('email') || $errors->has('password') || $errors->has('age') || $errors->has('gender')) ? '' : 'hidden'}}">
     <div class="fixed inset-0 bg-black bg-opacity-50 transition-opacity"></div>
 
     <div class="fixed inset-0 flex items-center justify-center p-4">
@@ -20,3 +20,11 @@
         </div>
     </div>
 </div>
+
+<script>
+    @if($errors->has('name') || $errors->has('email') || $errors->has('password') || $errors->has('age') || $errors->has('gender'))
+    document.addEventListener('DOMContentLoaded', function() {
+        document.getElementById('registerModal').classList.remove('hidden');
+    });
+    @endif
+</script>

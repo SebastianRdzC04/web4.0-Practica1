@@ -1,11 +1,9 @@
 @php
-    // Utilizar los datos pasados como prop o usar valores por defecto
     $datos = $datos ?? [
         ['name' => 'Hombres', 'data' => 500, 'color' => '#3b82f6'],
         ['name' => 'Mujeres', 'data' => 354, 'color' => '#ffffff'],
     ];
 
-    // Generar un ID único para cada instancia del gráfico
     $chartId = 'generoChart_' . uniqid();
 
     $tituloConvertido = $titulo ?? 'Default';

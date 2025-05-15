@@ -41,6 +41,13 @@ Route::prefix('admin')->middleware(['auth', 'role'])->group(function () {
     })->name('admin.profile');
 });
 
+Route::prefix('user')->middleware(['auth'])->group(function () {
+    Route::get('/', [UserController::class, 'index'])->name('user.index');
+    Route::patch('/edit/{id}', [UserController::class, 'edit'])->name('user.edit');
+    Route::get('/profile/{id}', [UserController::class, 'getUser'])->name('user.getUser');
+
+});
+
 Route::prefix('auth')->group(function () {
     Route::post('/login', [AuthController::class, 'login'])->name('auth.login');
 
