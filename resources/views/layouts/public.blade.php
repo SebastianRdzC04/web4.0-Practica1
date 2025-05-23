@@ -12,7 +12,7 @@
 
 </head>
 <body class="flex flex-col min-h-screen">
-<x-header-public/>
+<x-compuest.header-public/>
 <main class="flex-grow py-4">
     <x-modals.notification-modal />
 
@@ -44,6 +44,6 @@
     });
 </script>
 
-<x-footer/>
+<x-compuest.footer/>
 </body>
 </html>

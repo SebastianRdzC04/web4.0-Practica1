@@ -1,6 +1,6 @@
 <?php
 
-namespace App\View\Components;
+namespace App\View\Components\Compuest;
 
 use App\Models\User;
 use Illuminate\View\Component;
@@ -25,6 +25,6 @@ class UsersTable extends Component
     public function render()
     {
         $users = User::with('personalData')->paginate(10);
-        return view('components.users-table', compact('users'));
+        return view('components.compuest.users-table', compact('users'));
     }
 }

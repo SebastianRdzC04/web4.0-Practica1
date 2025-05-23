@@ -2,6 +2,7 @@
 
 namespace App\View\Components\Stats;
 
+use App\Models\User;
 use Illuminate\View\Component;
 use App\Models\PersonalData;
 use Illuminate\Support\Facades\DB;
@@ -32,29 +33,36 @@ class GenderStats extends Component
      */
     public function render()
     {
-        // Consultar a la base de datos y obtener conteo de usuarios por género
-        $genderCounts = PersonalData::select('gender', DB::raw('count(*) as total'))
-            ->groupBy('gender')
-            ->get()
-            ->keyBy('gender')
-            ->toArray();
+        // Obtener usuarios activos con sus datos personales
+        $users = User::with('personalData')->get();
+
+        // Filtrar usuarios que tienen datos personales
+        $usersWithData = $users->filter(function($user) {
+            return $user->personalData !== null;
+        });
+
+        // Contar por género
+        $maleCount = $usersWithData->filter(function($user) {
+            return $user->personalData->gender === 'male';
+        })->count();
+
+        $femaleCount = $usersWithData->filter(function($user) {
+            return $user->personalData->gender === 'female';
+        })->count();
 
         // Preparar datos para el gráfico con formato esperado
         $data = [
             [
                 'name' => 'Hombres',
-                'data' => $genderCounts['male']['total'] ?? 0,
+                'data' => $maleCount,
                 'color' => '#3b82f6'
             ],
             [
                 'name' => 'Mujeres',
-                'data' => $genderCounts['female']['total'] ?? 0,
+                'data' => $femaleCount,
                 'color' => '#ec4899'
             ]
         ];
-
-
-
 
         return view('components.stats.gender-stats', compact('data'));
     }

@@ -30,14 +30,13 @@ class UserController extends Controller
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:2|confirmed',
             'age' => 'required|integer|min:1|max:120',
             'gender'=> 'required|in:Hombre,Mujer',
         ]);
         $user = User::create([
             'name' => $validated['name'],
             'email' => $validated['email'],
-            'password' => bcrypt($validated['password']),
+            'password' => bcrypt('1234567890'),
             'role_id' => 2, // Assuming 2 is the role ID for clients
         ]);
         $user->personalData()->create([
@@ -52,6 +51,10 @@ class UserController extends Controller
     public function delete(Request $request, $id)
     {
         $user = User::findOrFail($id);
+        if ($user->id == auth()->user()->id) {
+            return back()->with('error', 'No puedes eliminar tu propio usuario');
+        }
+
         $user->delete();
 
         return back()->with('success', 'Usuario eliminado');

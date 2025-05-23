@@ -1,6 +1,6 @@
 <?php
 
-namespace App\View\Components;
+namespace App\View\Components\Compuest;
 
 use Illuminate\View\Component;
 
@@ -23,6 +23,6 @@ class UserDropdown extends Component
      */
     public function render()
     {
-        return view('components.user-dropdown');
+        return view('components.compuest.user-dropdown');
     }
 }

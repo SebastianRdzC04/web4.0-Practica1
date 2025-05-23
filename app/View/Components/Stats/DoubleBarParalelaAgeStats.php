@@ -2,6 +2,7 @@
 
 namespace App\View\Components\Stats;
 
+use App\Models\User;
 use Illuminate\View\Component;
 use App\Models\PersonalData;
 use Illuminate\Support\Facades\DB;
@@ -32,22 +33,30 @@ class DoubleBarParalelaAgeStats extends Component
      */
     public function render()
     {
-        $adultsMale = PersonalData::where('gender', 'male')
-            ->where('age', '>=', 18)
-            ->count();
+        $users = User::with('personalData')->get();
 
-        $adultsFemale = PersonalData::where('gender', 'female')
-            ->where('age', '>=', 18)
-            ->count();
 
-        $minorsMale = PersonalData::where('gender', 'male')
-            ->where('age', '<', 18)
-            ->count();
+        $usersWithData = $users->filter(function($user) {
+            return $user->personalData !== null;
+        });
 
-        $minorsFemale = PersonalData::where('gender', 'female')
-            ->where('age', '<', 18)
-            ->count();
+        // Contar adultos por género
+        $adultsMale = $usersWithData->filter(function($user) {
+            return $user->personalData->gender === 'male' && $user->personalData->age >= 18;
+        })->count();
 
+        $adultsFemale = $usersWithData->filter(function($user) {
+            return $user->personalData->gender === 'female' && $user->personalData->age >= 18;
+        })->count();
+
+        // Contar menores por género
+        $minorsMale = $usersWithData->filter(function($user) {
+            return $user->personalData->gender === 'male' && $user->personalData->age < 18;
+        })->count();
+
+        $minorsFemale = $usersWithData->filter(function($user) {
+            return $user->personalData->gender === 'female' && $user->personalData->age < 18;
+        })->count();
         $data = [
             [
                 "title" => "Mayores de edad",

@@ -8,7 +8,7 @@
             </div>
             <div>
                 @auth
-                    <x-user-dropdown />
+                    <x-compuest.user-dropdown />
 
                 @else
                     <x-common.button-secondary btnId="btn-login" btnText="Iniciar Sesion" />

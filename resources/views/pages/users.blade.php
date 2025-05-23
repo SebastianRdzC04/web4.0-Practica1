@@ -3,7 +3,7 @@
 @section('content')
     <x-common.title>LISTA DE USUARIOS</x-common.title>
     <div>
-        <x-users-table />
+        <x-compuest.users-table />
     </div>
 
 @endsection

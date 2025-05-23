@@ -1,6 +1,6 @@
 <?php
 
-namespace App\View\Components;
+namespace App\View\Components\Compuest;
 
 use Illuminate\View\Component;
 
@@ -23,6 +23,6 @@ class HeaderPublic extends Component
      */
     public function render()
     {
-        return view('components.header-public');
+        return view('components.compuest.header-public');
     }
 }

@@ -1,5 +1,5 @@
 @if ($errors->any() || session('error') || session('success'))
-<div id="notificationModal" class="fixed inset-0 z-50 flex items-start justify-end overflow-y-auto">
+<div id="notificationModal" class="fixed top-0 right-0 z-50 p-4 m-4 pointer-events-auto">
     <div class="p-4 m-4 max-w-sm w-full">
         @if($errors->any() || session('error'))
         <div class="bg-white rounded-lg shadow-xl overflow-hidden border-l-4 border-red-500 transform transition-all animate-fade-in-down">

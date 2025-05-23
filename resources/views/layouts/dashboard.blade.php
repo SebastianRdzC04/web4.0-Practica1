@@ -12,8 +12,8 @@
 
 </head>
 <body>
-<x-header/>
-<x-sidebar/>
+<x-compuest.header/>
+<x-compuest.sidebar/>
 
 <main>
     <x-modals.notification-modal />

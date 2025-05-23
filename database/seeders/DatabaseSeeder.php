@@ -51,7 +51,7 @@ class DatabaseSeeder extends Seeder
         $faker = Faker::create();
 
         // Crear 50 clientes
-        for ($i = 0; $i < 500; $i++) {
+        for ($i = 0; $i < 10; $i++) {
             $gender = $faker->randomElement(['male', 'female']);
 
             // Crear usuario
